@@ -11,13 +11,16 @@ class Menu:
         self.input_handler = InputHandler()
 
     def display_menu(self):
-        print("\n--- Evolution of Todo (Phase I) ---")
+        print("\n" + "="*30)
+        print("   Evolution of Todo (Phase I)  ")
+        print("="*30)
         print("1. View Tasks")
         print("2. Add Task")
         print("3. Update Task")
         print("4. Delete Task")
         print("5. Toggle Completion Status")
         print("6. Exit")
+        print("="*30)
 
     def run(self):
         while True:
@@ -47,9 +50,13 @@ class Menu:
             return
 
         print("\nYour Tasks:")
+        print("-" * 30)
+        print(f"{'ID':<4} | {'Status':<8} | {'Description'}")
+        print("-" * 30)
         for task in tasks:
-            status = "[X]" if task.is_completed else "[ ]"
-            print(f"{task.id}. {status} {task.description}")
+            status = "[Done]" if task.is_completed else "[Pending]"
+            print(f"{task.id:<4} | {status:<8} | {task.description}")
+        print("-" * 30)
 
     def _add_task(self):
         description = self.input_handler.get_string("Enter task description: ")
@@ -57,7 +64,7 @@ class Menu:
             task = self.service.add_task(description)
             print(f"Success: Task added with ID {task.id}.")
         except InvalidTaskError as e:
-            print(e)
+            print(f"Error: {e}")
 
     def _update_task(self):
         task_id = self.input_handler.get_int("Enter Task ID to update: ")
@@ -69,7 +76,7 @@ class Menu:
             self.service.update_task(task_id, new_description)
             print("Success: Task updated.")
         except (TaskNotFoundError, InvalidTaskError) as e:
-            print(e)
+            print(f"Error: {e}")
 
     def _delete_task(self):
         task_id = self.input_handler.get_int("Enter Task ID to delete: ")
@@ -80,7 +87,7 @@ class Menu:
             self.service.delete_task(task_id)
             print("Success: Task deleted.")
         except TaskNotFoundError as e:
-            print(e)
+            print(f"Error: {e}")
 
     def _toggle_task(self):
         task_id = self.input_handler.get_int("Enter Task ID to toggle: ")
@@ -92,4 +99,4 @@ class Menu:
             status = "completed" if task.is_completed else "incomplete"
             print(f"Success: Task {task_id} is now {status}.")
         except TaskNotFoundError as e:
-            print(e)
+            print(f"Error: {e}")

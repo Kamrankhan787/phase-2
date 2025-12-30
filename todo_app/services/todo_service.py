@@ -22,10 +22,13 @@ class TodoService:
 
     def add_task(self, description: str) -> Task:
         """Adds a new task to the in-memory list."""
-        if not description or not description.strip():
+        desc = description.strip() if description else ""
+        if not desc:
             raise InvalidTaskError("Task description cannot be empty.")
+        if len(desc) > 200:
+            raise InvalidTaskError("Task description cannot exceed 200 characters.")
 
-        task = Task(id=self._next_id, description=description.strip())
+        task = Task(id=self._next_id, description=desc)
         self.tasks.append(task)
         self._next_id += 1
         return task
@@ -43,11 +46,14 @@ class TodoService:
 
     def update_task(self, task_id: int, new_description: str) -> Task:
         """Updates an existing task's description."""
-        if not new_description or not new_description.strip():
+        desc = new_description.strip() if new_description else ""
+        if not desc:
             raise InvalidTaskError("Task description cannot be empty.")
+        if len(desc) > 200:
+            raise InvalidTaskError("Task description cannot exceed 200 characters.")
 
         task = self._get_task_by_id(task_id)
-        task.description = new_description.strip()
+        task.description = desc
         return task
 
     def delete_task(self, task_id: int) -> bool:

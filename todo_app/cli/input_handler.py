@@ -8,10 +8,13 @@ class InputHandler:
     @staticmethod
     def get_int(prompt: str) -> Optional[int]:
         """Safely gets an integer from the user."""
+        raw_input = input(prompt).strip()
+        if not raw_input:
+            return None
         try:
-            return int(input(prompt))
+            return int(raw_input)
         except ValueError:
-            print("Error: Please enter a valid numerical ID.")
+            print("Error: Input must be a valid numerical value.")
             return None
 
     @staticmethod
