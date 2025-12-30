@@ -1,154 +1,95 @@
-"""Menu controller for the Todo application CLI."""
+from todo_app.services.todo_service import TodoService, TaskNotFoundError, InvalidTaskError
+from todo_app.cli.input_handler import InputHandler
 
-from cli.input_handler import InputHandler
-from models.task import TaskStatus
-from services.todo_service import TodoService
-
-
-class TodoMenu:
-    """Handles menu display and user interaction for the todo application."""
-
+class Menu:
+    """
+    Handles the presentation logic and main loop.
+    Satisfies Phase I Spec §4 and Plan §4.
+    """
     def __init__(self, service: TodoService):
-        """Initialize the menu with a todo service.
+        self.service = service
+        self.input_handler = InputHandler()
 
-        Args:
-            service: The TodoService instance for task operations.
-        """
-        self._service = service
-        self._input = InputHandler()
-
-    def run(self):
-        """Run the main application loop."""
-        while True:
-            self._display_menu()
-            choice = self._input.get_menu_choice()
-            if choice is None:
-                continue
-            if choice == 7:
-                self._handle_exit()
-                break
-            self._handle_choice(choice)
-
-    def _display_menu(self):
-        """Display the main menu."""
-        print("\n=== Todo Application ===\n")
-        print("1. Add Task")
-        print("2. View Tasks")
+    def display_menu(self):
+        print("\n--- Evolution of Todo (Phase I) ---")
+        print("1. View Tasks")
+        print("2. Add Task")
         print("3. Update Task")
         print("4. Delete Task")
-        print("5. Mark Task Complete")
-        print("6. Mark Task Incomplete")
-        print("7. Exit\n")
+        print("5. Toggle Completion Status")
+        print("6. Exit")
 
-    def _handle_choice(self, choice: int):
-        """Route to the appropriate handler based on menu choice.
+    def run(self):
+        while True:
+            self.display_menu()
+            choice = self.input_handler.get_menu_choice("Choose an option: ")
 
-        Args:
-            choice: The menu choice number.
-        """
-        handlers = {
-            1: self._handle_add,
-            2: self._handle_view,
-            3: self._handle_update,
-            4: self._handle_delete,
-            5: self._handle_mark_complete,
-            6: self._handle_mark_incomplete,
-        }
-        handler = handlers.get(choice)
-        if handler:
-            handler()
+            if choice == 1:
+                self._view_tasks()
+            elif choice == 2:
+                self._add_task()
+            elif choice == 3:
+                self._update_task()
+            elif choice == 4:
+                self._delete_task()
+            elif choice == 5:
+                self._toggle_task()
+            elif choice == 6:
+                print("Exiting. Goodbye!")
+                break
+            else:
+                print("Invalid option. Please choose 1-6.")
 
-    def _handle_add(self):
-        """Handle adding a new task."""
-        description = self._input.get_task_description()
-        if description is None:
-            return
-        task = self._service.add_task(description)
-        print(f"Task added successfully. ID: {task.id}")
-
-    def _handle_view(self):
-        """Handle viewing all tasks."""
-        tasks = self._service.get_all_tasks()
+    def _view_tasks(self):
+        tasks = self.service.get_all_tasks()
         if not tasks:
-            print("\nNo tasks found. Add a task to get started.")
+            print("\nNo tasks found.")
             return
 
-        print("\n=== Your Tasks ===\n")
-        complete_count = 0
+        print("\nYour Tasks:")
         for task in tasks:
-            status_text = "Incomplete" if task.status == TaskStatus.INCOMPLETE else "Complete"
-            print(f"[{task.id}] {status_text}: {task.description}")
-            if task.status == TaskStatus.COMPLETE:
-                complete_count += 1
+            status = "[X]" if task.is_completed else "[ ]"
+            print(f"{task.id}. {status} {task.description}")
 
-        incomplete_count = len(tasks) - complete_count
-        print(f"\nTotal: {len(tasks)} tasks ({complete_count} complete, {incomplete_count} incomplete)")
+    def _add_task(self):
+        description = self.input_handler.get_string("Enter task description: ")
+        try:
+            task = self.service.add_task(description)
+            print(f"Success: Task added with ID {task.id}.")
+        except InvalidTaskError as e:
+            print(e)
 
-    def _handle_update(self):
-        """Handle updating a task."""
-        task_id = self._input.get_task_id("Enter task ID to update: ")
+    def _update_task(self):
+        task_id = self.input_handler.get_int("Enter Task ID to update: ")
         if task_id is None:
             return
 
-        task = self._service.get_task_by_id(task_id)
-        if task is None:
-            print(f"Error: Task with ID {task_id} not found.")
-            return
+        new_description = self.input_handler.get_string("Enter new description: ")
+        try:
+            self.service.update_task(task_id, new_description)
+            print("Success: Task updated.")
+        except (TaskNotFoundError, InvalidTaskError) as e:
+            print(e)
 
-        description = self._input.get_task_description()
-        if description is None:
-            return
-
-        if self._service.update_task(task_id, description):
-            print(f"Task {task_id} updated successfully.")
-
-    def _handle_delete(self):
-        """Handle deleting a task."""
-        task_id = self._input.get_task_id("Enter task ID to delete: ")
+    def _delete_task(self):
+        task_id = self.input_handler.get_int("Enter Task ID to delete: ")
         if task_id is None:
             return
 
-        if self._service.delete_task(task_id):
-            print(f"Task {task_id} deleted successfully.")
-        else:
-            print(f"Error: Task with ID {task_id} not found.")
+        try:
+            self.service.delete_task(task_id)
+            print("Success: Task deleted.")
+        except TaskNotFoundError as e:
+            print(e)
 
-    def _handle_mark_complete(self):
-        """Handle marking a task as complete."""
-        task_id = self._input.get_task_id("Enter task ID to mark complete: ")
+    def _toggle_task(self):
+        task_id = self.input_handler.get_int("Enter Task ID to toggle: ")
         if task_id is None:
             return
 
-        task = self._service.get_task_by_id(task_id)
-        if task is None:
-            print(f"Error: Task with ID {task_id} not found.")
-            return
-
-        if task.status == TaskStatus.COMPLETE:
-            print(f"Task {task_id} is already complete.")
-            return
-
-        if self._service.mark_complete(task_id):
-            print(f"Task {task_id} marked as complete.")
-
-    def _handle_mark_incomplete(self):
-        """Handle marking a task as incomplete."""
-        task_id = self._input.get_task_id("Enter task ID to mark incomplete: ")
-        if task_id is None:
-            return
-
-        task = self._service.get_task_by_id(task_id)
-        if task is None:
-            print(f"Error: Task with ID {task_id} not found.")
-            return
-
-        if task.status == TaskStatus.INCOMPLETE:
-            print(f"Task {task_id} is already incomplete.")
-            return
-
-        if self._service.mark_incomplete(task_id):
-            print(f"Task {task_id} marked as incomplete.")
-
-    def _handle_exit(self):
-        """Handle exiting the application."""
-        print("Goodbye!")
+        try:
+            task = self.service.toggle_task_status(task_id)
+            status = "completed" if task.is_completed else "incomplete"
+            print(f"Success: Task {task_id} is now {status}.")
+        except TaskNotFoundError as e:
+            print(e)

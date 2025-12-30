@@ -1,131 +1,63 @@
-"""Todo service for managing in-memory task storage and operations."""
-
-from datetime import datetime
 from typing import List, Optional
-from models.task import Task, TaskStatus
+from todo_app.models.task import Task
 
+class TaskNotFoundError(Exception):
+    """Raised when a task with a given ID is not found."""
+    def __init__(self, task_id: int):
+        self.task_id = task_id
+        super().__init__(f"Error: Task with ID {task_id} not found.")
+
+class InvalidTaskError(Exception):
+    """Raised when task data is invalid (e.g. empty description)."""
+    pass
 
 class TodoService:
-    """Handles in-memory task storage and CRUD operations.
-
-    This service manages a collection of tasks stored in memory.
-    Data persists only for the duration of the application session.
     """
-
+    Manages in-memory storage and business logic for tasks.
+    Satisfies Phase I Plan §1, §2, §3 and Spec §5.
+    """
     def __init__(self):
-        """Initialize the todo service with empty storage."""
-        self._tasks: List[Task] = []
+        self.tasks: List[Task] = []
         self._next_id: int = 1
 
-    def _generate_id(self) -> int:
-        """Generate the next unique task ID.
-
-        Returns:
-            The next available integer ID (starts at 1, never reused).
-        """
-        current_id = self._next_id
-        self._next_id += 1
-        return current_id
-
     def add_task(self, description: str) -> Task:
-        """Create a new task with the given description.
+        """Adds a new task to the in-memory list."""
+        if not description or not description.strip():
+            raise InvalidTaskError("Task description cannot be empty.")
 
-        Args:
-            description: The task description text.
-
-        Returns:
-            The newly created Task with unique ID and INCOMPLETE status.
-        """
-        description = description.strip()
-        task_id = self._generate_id()
-        task = Task(
-            id=task_id,
-            description=description,
-            status=TaskStatus.INCOMPLETE,
-            created_at=datetime.now()
-        )
-        self._tasks.append(task)
+        task = Task(id=self._next_id, description=description.strip())
+        self.tasks.append(task)
+        self._next_id += 1
         return task
 
     def get_all_tasks(self) -> List[Task]:
-        """Return all tasks in ID order.
+        """Returns all tasks."""
+        return self.tasks
 
-        Returns:
-            A copy of the task list to prevent external mutation.
-        """
-        return self._tasks.copy()
-
-    def get_task_by_id(self, task_id: int) -> Optional[Task]:
-        """Find a task by its ID.
-
-        Args:
-            task_id: The ID of the task to find.
-
-        Returns:
-            The Task if found, None otherwise.
-        """
-        for task in self._tasks:
+    def _get_task_by_id(self, task_id: int) -> Task:
+        """Private helper to find a task by ID."""
+        for task in self.tasks:
             if task.id == task_id:
                 return task
-        return None
+        raise TaskNotFoundError(task_id)
 
-    def update_task(self, task_id: int, new_description: str) -> bool:
-        """Update a task's description.
+    def update_task(self, task_id: int, new_description: str) -> Task:
+        """Updates an existing task's description."""
+        if not new_description or not new_description.strip():
+            raise InvalidTaskError("Task description cannot be empty.")
 
-        Args:
-            task_id: The ID of the task to update.
-            new_description: The new description text.
-
-        Returns:
-            True if the task was found and updated, False otherwise.
-        """
-        task = self.get_task_by_id(task_id)
-        if task is None:
-            return False
+        task = self._get_task_by_id(task_id)
         task.description = new_description.strip()
-        return True
+        return task
 
     def delete_task(self, task_id: int) -> bool:
-        """Delete a task by ID.
-
-        Args:
-            task_id: The ID of the task to delete.
-
-        Returns:
-            True if the task was found and deleted, False otherwise.
-        """
-        task = self.get_task_by_id(task_id)
-        if task is None:
-            return False
-        self._tasks.remove(task)
+        """Removes a task from the list."""
+        task = self._get_task_by_id(task_id)
+        self.tasks.remove(task)
         return True
 
-    def mark_complete(self, task_id: int) -> bool:
-        """Mark a task as complete.
-
-        Args:
-            task_id: The ID of the task to mark complete.
-
-        Returns:
-            True if the task was found and updated, False otherwise.
-        """
-        task = self.get_task_by_id(task_id)
-        if task is None:
-            return False
-        task.status = TaskStatus.COMPLETE
-        return True
-
-    def mark_incomplete(self, task_id: int) -> bool:
-        """Mark a task as incomplete.
-
-        Args:
-            task_id: The ID of the task to mark incomplete.
-
-        Returns:
-            True if the task was found and updated, False otherwise.
-        """
-        task = self.get_task_by_id(task_id)
-        if task is None:
-            return False
-        task.status = TaskStatus.INCOMPLETE
-        return True
+    def toggle_task_status(self, task_id: int) -> Task:
+        """Toggles the completion status of a task."""
+        task = self._get_task_by_id(task_id)
+        task.is_completed = not task.is_completed
+        return task

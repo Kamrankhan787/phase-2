@@ -1,60 +1,28 @@
-"""Input handler for user input validation and parsing."""
-
+from typing import Optional
 
 class InputHandler:
-    """Handles all user input validation and parsing.
-
-    This class provides methods to validate and parse user input
-    for the todo application CLI.
     """
-
-    def get_menu_choice(self) -> Optional[int]:
-        """Get and validate a menu selection.
-
-        Returns:
-            An integer between 1 and 7 if valid, None otherwise.
-        """
+    Handles raw user input and basic validation.
+    Satisfies Phase I Plan §5, §6.
+    """
+    @staticmethod
+    def get_int(prompt: str) -> Optional[int]:
+        """Safely gets an integer from the user."""
         try:
-            choice = int(input("Enter your choice (1-7): ").strip())
-            if 1 <= choice <= 7:
-                return choice
-            print("Invalid choice. Please enter a number between 1 and 7.")
-            return None
+            return int(input(prompt))
         except ValueError:
-            print("Invalid choice. Please enter a number between 1 and 7.")
+            print("Error: Please enter a valid numerical ID.")
             return None
 
-    def get_task_id(self, prompt: str) -> Optional[int]:
-        """Get and validate a task ID from user input.
+    @staticmethod
+    def get_string(prompt: str) -> str:
+        """Gets a string from the user."""
+        return input(prompt).strip()
 
-        Args:
-            prompt: The prompt message to display.
-
-        Returns:
-            A positive integer if valid, None otherwise.
-        """
+    @staticmethod
+    def get_menu_choice(prompt: str) -> Optional[int]:
+        """Safely gets a menu choice."""
         try:
-            task_id = int(input(prompt).strip())
-            if task_id > 0:
-                return task_id
-            print("Error: Please enter a positive number.")
-            return None
+            return int(input(prompt))
         except ValueError:
-            print("Error: Please enter a valid number.")
             return None
-
-    def get_task_description(self) -> Optional[str]:
-        """Get and validate a task description.
-
-        Returns:
-            The trimmed description string if valid (non-empty, <= 500 chars),
-            None otherwise.
-        """
-        description = input("Enter task description: ").strip()
-        if not description:
-            print("Error: Description cannot be empty.")
-            return None
-        if len(description) > 500:
-            print("Error: Description must be 500 characters or less.")
-            return None
-        return description
