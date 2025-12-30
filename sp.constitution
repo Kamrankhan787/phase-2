@@ -1,320 +1,38 @@
-# Evolution of Todo - Project Constitution
-
-**Supreme Governing Document**
-**Effective: Phase I - Phase V**
-**Status: binding on all agents**
-
----
-
-## Preamble
-
-This constitution establishes the foundational principles, governance structure, and operational rules governing the "Evolution of Todo" project across all five phases. All agents, automated systems, and human overseers must adhere to these principles. This document is the supreme authority; no other document may supersede it.
-
-The project vision is to evolve a simple todo application through successive phases into a sophisticated multi-agent system, each phase building upon the previous while maintaining architectural integrity and scope discipline.
-
----
-
-## Article I: Spec-Driven Development Mandate
-
-### Section 1.1: Mandatory Workflow
-
-All development work must follow this strict hierarchical process:
-
-```
-Constitution → Specifications → Plan → Tasks → Implementation
-```
-
-**No agent may write code without approved specifications and tasks.** This is absolute.
-
-### Section 1.2: Specification Requirements
-
-1. **Before any work begins**, a formal specification must exist
-2. Specifications must be:
-   - Written in clear, unambiguous language
-   - Signed off by the project authority
-   - Traced to specific phase scope
-   - Linked to planned tasks
-
-### Section 1.3: Task Derivation
-
-1. Tasks must derive directly from approved specifications
-2. Each task must:
-   - Have a clear definition of done
-   - Be traceable to a specification requirement
-   - Specify technology choices explicitly
-   - Include acceptance criteria
-
-### Section 1.4: No Code Without Authority
-
-- Agents may not write, modify, or delete code except as authorized by approved tasks
-- Emergent design decisions must be escalated to specification level
-- Technical debt may not be introduced to work around specification constraints
-
----
-
-## Article II: Agent Behavior Rules
-
-### Section 2.1: No Human Manual Coding
-
-1. **Humans do not write code directly.** All code is produced by agents operating within this constitutional framework.
-2. Human intervention is limited to:
-   - Writing and approving specifications
-   - Reviewing and approving plans
-   - Accepting completed implementations
-   - Authorizing constitutional amendments
-
-### Section 2.2: No Feature Invention
-
-1. Agents must not introduce features not specified in approved specifications
-2. "Nice-to-have" additions are prohibited
-3. Scope creep at the code level is grounds for task rejection
-4. Innovation must flow through the specification process
-
-### Section 2.3: Strict Specification Adherence
-
-1. Implementation must match specifications exactly
-2. Deviations, even if technically superior, require specification amendment
-3. Interpretation ambiguities must be resolved by requesting specification clarification
-4. "Works as specified" is the only valid implementation standard
-
-### Section 2.4: Refinement at Specification Level
-
-1. **All refinement occurs at the specification level, never at the code level.**
-2. When implementation challenges arise:
-   - Do not compromise specifications to ease implementation
-   - Request specification clarification or amendment
-   - Propose specification changes through proper channels
-3. Code is the servant of specifications, not their negotiator
-
----
-
-## Article III: Phase Governance
-
-### Section 3.1: Phase Scoping
-
-Each phase operates under a strict specification boundary:
-
-| Phase | Focus | Scope Boundary |
-|-------|-------|----------------|
-| I | Foundation | Core todo CRUD, basic API |
-| II | Agent Integration | AI agent layer, task intelligence |
-| III | Multi-Agent Coordination | Agent collaboration, communication |
-| IV | Advanced Orchestration | Workflow, state management |
-| V | Production Scale | Cloud-native, distributed systems |
-
-### Section 3.2: Phase Isolation
-
-**Future-phase features must never leak into earlier phases.**
-
-1. Phase I code contains no Phase II+ functionality
-2. Phase II architecture does not pre-implement Phase III patterns
-3. Each phase stands complete within its specification scope
-4. Refactoring for future phases requires approved specification change
-
-### Section 3.3: Architecture Evolution
-
-1. Architecture may only evolve through:
-   - Updated specifications (constitutionally approved)
-   - Revised plans reflecting new specifications
-   - New tasks implementing revised specifications
-
-2. Architectural decisions must be documented in specifications
-3. "Future-proofing" through speculative architecture is prohibited
-4. YAGNI (You Aren't Gonna Need It) principle applies strictly
-
-### Section 3.4: Phase Transition
-
-1. A phase is complete when:
-   - All specifications for that phase are implemented
-   - All tasks for that phase are accepted
-   - Phase acceptance criteria are met
-
-2. Phase transition requires:
-   - Formal phase completion declaration
-   - Baseline established for next phase
-   - Scope boundaries documented
-
----
-
-## Article IV: Technology Constraints
-
-### Section 4.1: Mandatory Technology Stack
-
-All implementations must use these technologies:
-
-| Layer | Technology | Notes |
-|-------|------------|-------|
-| Backend Language | Python | Primary implementation language |
-| API Framework | FastAPI | REST API layer |
-| Data Modeling | SQLModel | ORM and data definitions |
-| Database | Neon DB | PostgreSQL-compatible cloud DB |
-| AI Framework | OpenAI Agents SDK | Agent implementation |
-| Integration | MCP (Model Context Protocol) | Standardized agent communication |
-| Containerization | Docker | All services must containerize |
-| Orchestration | Kubernetes | Production deployment |
-| Event Streaming | Kafka | Event-driven communication |
-| Distributed Patterns | Dapr | Sidecar pattern for distributed systems |
-
-### Section 4.2: Technology Additions
-
-1. No additional technologies may be introduced without constitutional amendment
-2. Library additions within technology categories require specification approval
-3. All technologies must be cloud-native ready
-
-### Section 4.3: Technology Migration
-
-If technology constraints require modification:
-1. Amendment process must be followed
-2. Migration plan must be included in specifications
-3. Backward compatibility must be maintained where specified
-
----
-
-## Article V: Quality Principles
-
-### Section 5.1: Clean Architecture
-
-All implementations must follow clean architecture principles:
-
-1. **Separation of concerns** - Distinct layers with clear responsibilities
-2. **Dependency inversion** - Abstractions do not depend on details
-3. **Single responsibility** - Each component has one purpose
-4. **Testability** - Architecture supports unit and integration testing
-
-### Section 5.2: Stateless Services
-
-Where required by specifications:
-
-1. Services must be stateless
-2. State must be externalized to database or cache
-3. Horizontal scaling must be supported
-4. Session state must not be stored in-memory
-
-### Section 5.3: Separation of Concerns
-
-1. API layer handles HTTP concerns only
-2. Service layer handles business logic only
-3. Data layer handles persistence only
-4. Agent layer handles AI concerns only
-5. Cross-cutting concerns handled via middleware
-
-### Section 5.4: Cloud-Native Readiness
-
-All implementations must be cloud-native ready:
-
-1. **12-Factor App principles** where applicable
-2. **Container-first design** - Everything runs in containers
-3. **Configuration via environment** - No hardcoded values
-4. **Health endpoints** - All services expose health checks
-5. **Observability** - Logging, metrics, tracing ready
-6. **Graceful degradation** - Failure handling built-in
-
----
-
-## Article VI: Constitutional Authority
-
-### Section 6.1: Supremacy
-
-This constitution is the supreme governing document of the project. In case of conflict:
-
-1. Constitution > Specifications > Plan > Tasks > Code
-2. This document may only be amended through formal process
-
-### Section 6.2: Interpretation
-
-1. This constitution takes precedence over all other documents
-2. Ambiguities are resolved by strict interpretation favoring phase isolation
-3. Specification writers should avoid conflicts with this constitution
-
-### Section 6.3: Amendment Process
-
-Constitutional amendments require:
-
-1. Clear statement of change
-2. Rationale documentation
-3. Impact assessment across all phases
-4. Formal approval
-
----
-
-## Article VII: Enforcement
-
-### Section 7.1: Agent Compliance
-
-All agents must:
-
-1. Read and understand this constitution before any task execution
-2. Verify specifications align with constitutional principles
-3. Report violations to project authority
-4. Refuse tasks that violate constitutional principles
-
-### Section 7.2: Code Review Standards
-
-All code reviews must verify:
-
-1. Specification compliance
-2. Phase scope adherence
-3. Technology constraint satisfaction
-4. Quality principle adherence
-
-### Section 7.3: Violation Consequences
-
-Violations of this constitution result in:
-
-1. Task rejection
-2. Mandatory remediation
-3. Specification correction process
-4. Repeat violations require process review
-
----
-
-## Appendix A: Glossary
-
-| Term | Definition |
-|------|------------|
-| Agent | Automated system operating under these rules |
-| Specification | Formal document describing required functionality |
-| Plan | Implementation strategy derived from specifications |
-| Task | Atomic unit of work derived from plans |
-| Phase | Distinct stage of project evolution |
-| Scope | Boundary of what a phase includes/excludes |
-
----
-
-## Appendix B: Workflow Checklist
-
-**Before any implementation, verify:**
-
-- [ ] Constitution consulted for governing principles
-- [ ] Specification exists and is approved
-- [ ] Plan derived from specification
-- [ ] Tasks derived from plan
-- [ ] Technology choices match constitutional constraints
-- [ ] Phase scope verified (no future-phase features)
-- [ ] Clean architecture principles applied
-- [ ] Cloud-native requirements considered
-
----
-
-## Appendix C: Phase Boundaries Summary
-
-**Phase I** - Foundation (Todo CRUD, FastAPI, SQLModel, Neon DB)
-- No AI, no agents, no orchestration
-
-**Phase II** - Agent Integration (OpenAI Agents SDK, MCP)
-- AI features only; no multi-agent coordination
-
-**Phase III** - Multi-Agent Coordination (Agent communication)
-- Coordination features only; no complex orchestration
-
-**Phase IV** - Advanced Orchestration (Kafka, Dapr patterns)
-- Orchestration features only; no production scale
-
-**Phase V** - Production Scale (Kubernetes, cloud-native, distributed)
-- Production features only; no speculative future features
-
----
-
-**This constitution is binding. All agents must comply.**
-
-*Version 1.0 - Effective for Phase I through Phase V*
+# Evolution of Todo: Global Constitution
+
+This document serves as the supreme governing document for the "Evolution of Todo" project, spanning Phase I through Phase V. All agents and automated processes must adhere to these principles and rules.
+
+## 1. Spec-Driven Development (SDD)
+Spec-Driven Development is mandatory. No agent may write code without approved specifications and tasks.
+- **Workflow:** Constitution → Specifications → Plan → Tasks → Implementation.
+- Every change must be traceable back to an approved specification.
+- Task lists must be exhaustive and derived directly from the planning phase.
+
+## 2. Agent Behavior Rules
+- **No Manual Coding:** All code must be generated by authorized agents following the SDD workflow.
+- **No Feature Invention:** Agents are strictly forbidden from adding functionality not explicitly defined in the approved specifications.
+- **Strict Compliance:** Agents must not deviate from approved specifications.
+- **Prioritize Refinement:** If a specification is found to be deficient, it must be refined and re-approved at the specification level before any code modifications occur.
+- **Self-Correction:** Agents must verify their output against this constitution and the relevant phase specifications.
+
+## 3. Phase Governance
+- **Strict Scoping:** Each phase is strictly bounded by its specific specification.
+- **No Feature Leakage:** Features or concepts intended for future phases (e.g., cloud-native components in Phase I) must never be introduced prematurely.
+- **Infrastructure Evolution:** Architectural changes may only occur through updated specifications and implementation plans explicitly targeting the current or next phase.
+
+## 4. Technology Constraints
+- **Core Backend:** Python.
+- **Web Framework:** FastAPI (Phase II+).
+- **Data Layer:** SQLModel, Neon DB (PostgreSQL).
+- **Frontend:** Next.js (Phase II+).
+- **Agent Framework:** OpenAI Agents SDK, MCP (Model Context Protocol).
+- **Cloud-Native / Distributed:** Docker, Kubernetes, Kafka, Dapr (Phase IV and V).
+
+## 5. Quality Principles
+- **Clean Architecture:** Maintain strict separation of concerns (Models, Services, API, CLI).
+- **Statelessness:** Services must be designed as stateless where required by the phase specification to ensure cloud-native readiness.
+- **Cloud-Native Readiness:** Code should be portable and prepared for containerization and orchestration as the phases progress.
+- **Testability:** High test coverage and test-driven mindset within the scope of the specifications.
+
+## 6. Stability
+This constitution must remain stable across all phases. Any amendments require a formal revision process and update to this document.
