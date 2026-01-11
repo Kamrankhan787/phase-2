@@ -1,0 +1,20 @@
+/* Tailwind Directives - Disabled for CDN usage
+/* @tailwind base; */
+/* @tailwind components; */
+/* @tailwind utilities; */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 31, 41, 55;
+  --background-start-rgb: 243, 244, 246;
+  --background-end-rgb: 255, 255, 255;
+  --primary-blue: 37, 99, 235;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: radial-gradient(circle at top left, #f3f4f6, #ffffff);
+  min-height: 100vh;
+}

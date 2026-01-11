@@ -1,0 +1,10 @@
+
+--- Login attempt ---
+Timestamp: 2026-01-11 15:39:00.852876
+Username received: 'kamrankhancool87@gmail.com'
+Result: User found, Password valid: True
+
+--- Login attempt ---
+Timestamp: 2026-01-11 15:40:20.819519
+Username received: 'test@test.com'
+Result: User found, Password valid: True
