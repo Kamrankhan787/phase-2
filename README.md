@@ -1,20 +1,21 @@
 # Evolution of Todo
 
-A multi-phase project demonstrating the evolution of a Todo application from a simple CLI to a cloud-native, AI-integrated system.
+A multi-phase project demonstrating the evolution of a simple Todo application from a CLI tool to a distributed, cloud-native system.
 
-## Documentation
-- [Global Constitution](./sp.constitution)
-- [Phase I Specification](./specs/001-todo-cli/specification.md)
-- [Phase I Plan](./specs/001-todo-cli/plan.md)
-- [Implementation Tasks](./specs/001-todo-cli/tasks.md)
+## Project Structure
+- `specs/`: Phase-by-phase specifications and technical plans.
+- `src/`: Application source code.
+- `history/`: Prompt history and documentation of requirements generation.
+- `sp.constitution`: Global project governance document.
 
 ## Phase I: In-Memory CLI
-The current version is an in-memory Python console application.
-- No persistence
-- Clean Architecture
-- Type-safe
+The current phase implements a strictly in-memory Python console application.
 
-## How to Run
+### Usage
+Run the main script:
 ```bash
 python main.py
 ```
+
+### Development
+This project follows **Spec-Driven Development**. No implementation changes should be made without corresponding updates to the specifications in `specs/`.
