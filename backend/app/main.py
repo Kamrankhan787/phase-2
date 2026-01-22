@@ -1,7 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .api import todos, auth
+from dotenv import load_dotenv
+from .api import todos, auth, chat
 from .core.database import init_db
+
+# Load environment variables
+load_dotenv()
+
 
 
 app = FastAPI(title="Evolution of Todo API")
@@ -25,6 +30,7 @@ def on_startup():
 
 app.include_router(todos.router)
 app.include_router(auth.router)
+app.include_router(chat.router)  # Phase III: Chat endpoint
 
 @app.get("/")
 def read_root():
